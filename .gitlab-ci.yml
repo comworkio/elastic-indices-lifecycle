@@ -10,12 +10,20 @@ github-mirror:
   tags:
     - elasticlifecycle
 
-docker-deliver:
+docker-deliver-x86:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh
+    - setsid ./ci/docker-deliver.sh "x86"
   only:
     - /^(master.*)$/
   tags:
     - elasticlifecycle
 
+docker-deliver-arm:
+  stage: publish
+  script:
+    - setsid ./ci/docker-deliver.sh "arm"
+  only:
+    - /^(master.*)$/
+  tags:
+    - docker-arm

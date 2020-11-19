@@ -6,13 +6,31 @@ This project aims to provide a docker image that handle the rollup of elastic in
 * main repo: https://gitlab.comwork.io/oss/elastic-indices-lifecycle
 * github mirror backup: https://github.com/idrissneumann/elastic-indices-lifecycle
 
-## Deployment with docker
+## Docker repository
 
 The docker hub repository is here: https://hub.docker.com/repository/docker/comworkio/elastic-indices-lifecycle
 
+The image is built either for ARM and x86 architecture. 
+
+You can use the following tags for x86:
+
 ```shell
-docker pull comworkio/elastic-indices-lifecycle
+docker pull comworkio/elastic-indices-lifecycle:latest # x86
+docker pull comworkio/elastic-indices-lifecycle:1.0 # x86
+docker pull comworkio/elastic-indices-lifecycle:1.0-{sha} # x86
+docker pull comworkio/elastic-indices-lifecycle:1.0-x86 # x86
+docker pull comworkio/elastic-indices-lifecycle:1.0-{sha}-x86 # x86
 ```
+
+You can use the following tags for arm:
+
+```shell
+docker pull comworkio/elastic-indices-lifecycle:latest-arm # x86
+docker pull comworkio/elastic-indices-lifecycle:1.0-arm # x86
+docker pull comworkio/elastic-indices-lifecycle:1.0-{sha}-arm # x86
+```
+
+## Deployment with docker
 
 You can either mount a [json configuration file](./purge_conf.json) or use environment variable instead.
 

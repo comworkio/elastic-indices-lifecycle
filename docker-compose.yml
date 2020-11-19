@@ -1,10 +1,21 @@
 version: "3.3"
 
 services:
-  purge_sample:
+  rollup_x86:
     image: comworkio/elastic-indices-lifecycle
     container_name: elastic-indices-lifecycle
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ES_LIFECYCLE_log_level=DEBUG
+      - ES_LIFECYCLE_index_prefixes=logs,metrics
+  rollup_arm:
+    image: comworkio/elastic-indices-lifecycle
+    container_name: elastic-indices-lifecycle
+    build:
+      context: .
+      dockerfile: Dockerfile.arm
     environment:
       - ES_LIFECYCLE_log_level=DEBUG
       - ES_LIFECYCLE_index_prefixes=logs,metrics
