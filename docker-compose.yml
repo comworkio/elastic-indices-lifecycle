@@ -8,5 +8,6 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    privileged: true
-
+    environment:
+      - ES_LIFECYCLE_log_level=DEBUG
+      - ES_LIFECYCLE_index_prefixes=logs,metrics

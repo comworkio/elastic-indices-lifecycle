@@ -5,25 +5,56 @@ from elasticsearch import Elasticsearch
 from datetime import datetime
 import pycurl
 import re
+import os
 
+
+def override_conf_from_env( conf, key ):
+    env_key = "ES_LIFECYCLE_{}".format(key)
+    if os.environ.get(env_key) is not None:
+        conf[key] = os.environ[env_key]
+
+def override_conf_from_env_array( conf, key ):
+    env_key = "ES_LIFECYCLE_{}".format(key)
+    if os.environ.get(env_key) is not None:
+        conf[key] = os.environ[env_key].split(",")
+
+conf=[]
 with open('purge_conf.json') as json_file:
     conf = json.load(json_file)
-    ES_HOSTS = conf['elastic_hosts']
-    ES_PORT = conf['elastic_port']
-    ES_SCHEME = conf['elastic_scheme']
-    WAIT_TIME = conf['wait_time']
-    INDEX_PREFIXES = conf['index_prefixes']
-    INDEX_SUFFIXES = conf['index_suffixes']
-    RETENTION = conf['retention']
-    ES_USER = conf['elastic_username']
-    ES_PASS = conf['elastic_password']
-    SLACK_TRIGGER = conf['should_slack']
-    SLACK_URL = conf['slack_url']
-    SLACK_USERNAME = conf['slack_username']
-    SLACK_CHANNEL = conf['slack_channel']
-    SLACK_EMOJI = conf['slack_emoji']
-    LOG_LEVEL = conf['log_level']
-    DATE_FORMAT = conf['date_format']
+
+override_conf_from_env(conf, 'elastic_hosts')
+override_conf_from_env(conf, 'elastic_port')
+override_conf_from_env(conf, 'elastic_scheme')
+override_conf_from_env(conf, 'wait_time')
+override_conf_from_env(conf, 'retention')
+override_conf_from_env(conf, 'elastic_username')
+override_conf_from_env(conf, 'elastic_password')
+override_conf_from_env(conf, 'should_slack')
+override_conf_from_env(conf, 'slack_url')
+override_conf_from_env(conf, 'slack_username')
+override_conf_from_env(conf, 'slack_channel')
+override_conf_from_env(conf, 'slack_emoji')
+override_conf_from_env(conf, 'log_level')
+override_conf_from_env(conf, 'date_format')
+override_conf_from_env_array(conf, 'index_prefixes')
+override_conf_from_env_array(conf, 'index_suffixes')
+
+ES_HOSTS = conf['elastic_hosts']
+ES_PORT = conf['elastic_port']
+ES_SCHEME = conf['elastic_scheme']
+WAIT_TIME = conf['wait_time']
+INDEX_PREFIXES = conf['index_prefixes']
+INDEX_SUFFIXES = conf['index_suffixes']
+RETENTION = conf['retention']
+ES_USER = conf['elastic_username']
+ES_PASS = conf['elastic_password']
+SLACK_TRIGGER = conf['should_slack']
+SLACK_URL = conf['slack_url']
+SLACK_USERNAME = conf['slack_username']
+SLACK_CHANNEL = conf['slack_channel']
+SLACK_EMOJI = conf['slack_emoji']
+LOG_LEVEL = conf['log_level']
+DATE_FORMAT = conf['date_format']
 
 es = Elasticsearch(ES_HOSTS, http_auth=(ES_USER, ES_PASS), scheme = ES_SCHEME, port = ES_PORT)
 
@@ -38,14 +69,14 @@ def slack_message( message ):
         c.perform()
 
 def check_log_level ( log_level ):
-    if LOG_LEVEL == "debug":
+    if LOG_LEVEL == "debug" or LOG_LEVEL == "DEBUG":
         return True
     else:
-        return log_level != "debug"
+        return log_level != "debug" and log_level != "DEBUG"
 
 def quiet_log_msg ( log_level, message ):
     if check_log_level(log_level):
-        print (message)
+        print ("[{}] {}".format(log_level, message))
 
 def log_msg( log_level, message ):
     if check_log_level(log_level):
@@ -59,6 +90,7 @@ def perform_delete( indice, creation_date ):
         es.indices.delete(index=indice, ignore=[400, 404])
 
 while True:
+    log_msg("debug", "Configuration : log_level = {}, should_slack = {}, elastic_hosts = {}, elastic_user = {}, date_format = {}".format(LOG_LEVEL, SLACK_TRIGGER, ES_HOSTS, ES_USER, DATE_FORMAT))
     log_msg("info", "Check if indices matching with prefixes = {} and suffixes = {}".format(INDEX_PREFIXES, INDEX_SUFFIXES))
     for indice in es.indices.get('*'):
         if INDEX_PREFIXES:
