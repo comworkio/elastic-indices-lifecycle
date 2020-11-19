@@ -12,8 +12,7 @@ tag_and_push() {
   docker push "comworkio/elastic-indices-lifecycle:${1}"
 }
 
-cd "${REPO_PATH}" && git pull origin master || :
-git push github master 
+cd "${REPO_PATH}" && git pull origin master || : 
 
 COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build rollup_${ARCH}
 
