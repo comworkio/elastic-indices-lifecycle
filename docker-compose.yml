@@ -4,10 +4,7 @@ services:
   purge_sample:
     image: comworkio/elastic-indices-lifecyle
     container_name: elastic-indices-lifecyle
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
+    build: .
     environment:
       - ES_LIFECYCLE_log_level=DEBUG
       - ES_LIFECYCLE_index_prefixes=logs,metrics

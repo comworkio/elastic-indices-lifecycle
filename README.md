@@ -9,7 +9,7 @@ This project aims to provide a docker image that handle the rollup of elastic in
 ## Deployment with docker
 
 ```shell
-docker pull 
+docker pull comworkio/elastic-indices-lifecycle
 ```
 
 You can either mount a [json configuration file](./purge_conf.json) or use environment variable instead.
