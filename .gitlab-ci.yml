@@ -1,6 +1,15 @@
 stages:
   - publish
 
+docker-deliver:
+  stage: publish
+  script:
+    - setsid ./ci/docker-deliver.sh
+  only:
+    - /^(master.*)$/
+  tags:
+    - elasticlifecycle
+
 github-mirror:
   stage: publish
   script:
