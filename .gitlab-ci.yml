@@ -26,4 +26,4 @@ docker-deliver-arm:
   only:
     - /^(master.*)$/
   tags:
-    - docker-arm
+    - buildarm
