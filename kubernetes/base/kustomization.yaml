@@ -1,0 +1,3 @@
+resources:
+    - cmn/configmap.yaml
+    - cmn/deployment.yaml

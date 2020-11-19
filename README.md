@@ -27,7 +27,7 @@ Here the environment variable you can use with your container :
 * `ES_LIFECYCLE_retention`: retention in days to remove the old indices (default: 30 days)
 * `ES_LIFECYCLE_log_level`: log level (default: info)
 * `ES_LIFECYCLE_should_slack`: `on` in order to enable Slack notification (default: `off`)
-* `ES_LIFECYCLE_slack_url`: slack custom integration url
+* `ES_LIFECYCLE_slack_token`: slack token
 * `ES_LIFECYCLE_slack_username`: slack username to appear in the channels
 * `ES_LIFECYCLE_slack_channel`: the channel
 * `ES_LIFECYCLE_slack_emoji`: slack emoji that will be used as an avatar (default `:elastic:`, so you need to have an emoji that 
@@ -38,3 +38,7 @@ Here the environment variable you can use with your container :
 ## Deployment with kubernetes
 
 There will be a nice helm chart some days.
+
+For now, you'll find an example of kubernetes yaml [here](./kubernetes) files using kustomize in order to deploy two environments in a gitops way.
+
+You'll see that you'll also need to create the missing secrets (using SealedSecret if you want to stay completly gitops).

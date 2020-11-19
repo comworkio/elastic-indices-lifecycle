@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elastic-indices-lifecycle
+  namespace: eslifecycle
+  labels:
+    app: eslifecycle
+    app.kubernetes.io/name: eslifecycle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eslifecycle
+      app.kubernetes.io/name: eslifecycle
+  template:
+    metadata:
+      labels:
+        app: eslifecycle
+        app.kubernetes.io/name: eslifecycle
+    spec:
+      containers:
+        - name: eslifecycle
+          image: comworkio/elastic-indices-lifecycle:1.0
+          imagePullPolicy: Always
+          env:
+            - name: ES_LIFECYCLE_elastic_hosts
+              valueFrom:
+                configMapKeyRef:
+                  name: cmn-config
+                  key: elastic_hosts
+            - name: ES_LIFECYCLE_elastic_port
+              valueFrom:
+                configMapKeyRef:
+                  name: cmn-config
+                  key: elastic_port
+            - name: ES_LIFECYCLE_elastic_scheme
+              valueFrom:
+                configMapKeyRef:
+                  name: cmn-config
+                  key: elastic_scheme
+            - name: ES_LIFECYCLE_elastic_username
+              valueFrom:
+                configMapKeyRef:
+                  name: cmn-config
+                  key: elastic_username
+            - name: ES_LIFECYCLE_elastic_password
+              valueFrom:
+                secretKeyRef:
+                  name: elastic-password
+                  key: password
+            - name: ES_LIFECYCLE_wait_time
+              valueFrom:
+                configMapKeyRef:
+                  name: cmn-config
+                  key: wait_time
+            - name: ES_LIFECYCLE_retention
+              valueFrom:
+                configMapKeyRef:
+                  name: env-cmn-config
+                  key: retention
+            - name: ES_LIFECYCLE_log_level
+              valueFrom:
+                configMapKeyRef:
+                  name: env-cmn-config
+                  key: log_level
+            - name: ES_LIFECYCLE_should_slack
+              valueFrom:
+                configMapKeyRef:
+                  name: cmn-config
+                  key: should_slack
+            - name: ES_LIFECYCLE_slack_token
+              valueFrom:
+                secretKeyRef:
+                  name: slack-token
+                  key: token
+            - name: ES_LIFECYCLE_slack_username
+              valueFrom:
+                configMapKeyRef:
+                  name: env-cmn-config
+                  key: slack_username
+            - name: ES_LIFECYCLE_slack_channel
+              valueFrom:
+                configMapKeyRef:
+                  name: cmn-config
+                  key: slack_channel
+            - name: ES_LIFECYCLE_slack_emoji
+              valueFrom:
+                configMapKeyRef:
+                  name: cmn-config
+                  key: slack_emoji
+            - name: ES_LIFECYCLE_date_format
+              valueFrom:
+                configMapKeyRef:
+                  name: cmn-config
+                  key: date_format
+            - name: ES_LIFECYCLE_index_prefixes
+              valueFrom:
+                configMapKeyRef:
+                  name: cmn-config
+                  key: index_prefixes
+            - name: ES_LIFECYCLE_index_suffixes
+              valueFrom:
+                configMapKeyRef:
+                  name: cmn-config
+                  key: index_suffixes

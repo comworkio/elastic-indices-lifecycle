@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmn-config
+  namespace: eslifecycle
+data:
+  elastic_hosts: "mylocalcluster.srv"
+  elastic_port: "9200"
+  elastic_scheme: "http"
+  elastic_username: "elastic"
+  wait_time: "43200"
+  should_slack: "on"
+  slack_emoji: ":elastic:"
+  slack_channel: "#alerting-elastic"
+  index_prefixes: ""
+  index_suffixes: "logs"
+  date_format: "%Y-%m-%d"

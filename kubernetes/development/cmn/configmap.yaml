@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-cmn-config
+  namespace: eslifecycle
+data:
+  retention: "1"
+  slack_username: "rollup-dev"
+  log_level: "debug"

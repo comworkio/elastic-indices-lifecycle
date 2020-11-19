@@ -68,3 +68,6 @@ hs_err_pid*.log
 
 *.workspace
 *.code-workspace
+
+*.pem
+
