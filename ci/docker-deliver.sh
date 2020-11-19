@@ -4,7 +4,7 @@ REPO_PATH="/home/centos/elastic-indices-lifecycle/"
 VERSION="1.0"
 
 deliver() {
-  docker tag comworkio/elastic-indices-lifecycle:$1
+  docker tag "${1}" comworkio/elastic-indices-lifecycle
   docker push comworkio/elastic-indices-lifecycle:$1
 }
 
