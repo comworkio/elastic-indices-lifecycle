@@ -89,7 +89,7 @@ def perform_delete( indice, creation_date ):
     d = (datetime.now() - creation_date).days
     quiet_log_msg("debug", "Check if d={} >= r={} for the indice {}".format(d, RETENTION, indice))
     if d >= RETENTION:
-        log_msg("info", "Removing indice i={} because d={} > r={}".format(indice, d, RETENTION))
+        log_msg("info", "Removing indice i={} because d={} >= r={}".format(indice, d, RETENTION))
         es.indices.delete(index=indice, ignore=[400, 404])
 
 while True:
