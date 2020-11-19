@@ -68,7 +68,7 @@ DATE_FORMAT = conf['date_format']
 
 if is_not_empty(ES_USER) and is_not_empty(ES_PASS) and is_not_empty(ES_SUBPATH):
     es = Elasticsearch("{}://{}:{}@{}:{}/{}".format(ES_SCHEME, ES_USER, ES_PASS, ES_HOSTS, ES_PORT, ES_SUBPATH))
-elif is_not_empty(ES_USER) and is_not_empty(ES_PASS)
+elif is_not_empty(ES_USER) and is_not_empty(ES_PASS):
     es = Elasticsearch(ES_HOSTS, http_auth=(ES_USER, ES_PASS), scheme = ES_SCHEME, port = ES_PORT)
 elif is_not_empty(ES_SUBPATH):
     es = Elasticsearch("{}://{}:{}/{}".format(ES_SCHEME, ES_HOSTS, ES_PORT, ES_SUBPATH))
