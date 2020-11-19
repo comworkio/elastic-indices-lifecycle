@@ -42,12 +42,12 @@ override_conf_from_env_array(conf, 'index_prefixes')
 override_conf_from_env_array(conf, 'index_suffixes')
 
 ES_HOSTS = conf['elastic_hosts']
-ES_PORT = conf['elastic_port']
+ES_PORT = int(conf['elastic_port'])
 ES_SCHEME = conf['elastic_scheme']
-WAIT_TIME = conf['wait_time']
+WAIT_TIME = int(conf['wait_time'])
 INDEX_PREFIXES = conf['index_prefixes']
 INDEX_SUFFIXES = conf['index_suffixes']
-RETENTION = conf['retention']
+RETENTION = int(conf['retention'])
 ES_USER = conf['elastic_username']
 ES_PASS = conf['elastic_password']
 SLACK_TRIGGER = conf['should_slack']
