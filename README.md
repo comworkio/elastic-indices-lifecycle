@@ -32,7 +32,7 @@ docker pull comworkio/elastic-indices-lifecycle:1.0-{sha}-arm # x86
 
 ## Deployment with docker
 
-You can either mount a [json configuration file](./purge_conf.json) or use environment variable instead.
+You can either mount a [json configuration file](https://gitlab.comwork.io/oss/elastic-indices-lifecycle/-/blob/master/rollup_conf.json) or use environment variable instead.
 
 Here the environment variable you can use with your container :
 
@@ -57,6 +57,6 @@ Here the environment variable you can use with your container :
 
 There will be a nice helm chart some days.
 
-For now, you'll find an example of kubernetes yaml [here](./kubernetes) files using kustomize in order to deploy two environments in a gitops way.
+For now, you'll find an example of kubernetes yaml [here](https://gitlab.comwork.io/oss/elastic-indices-lifecycle/-/tree/master/kubernetes) files using kustomize in order to deploy two environments in a gitops way.
 
 You'll see that you'll also need to create the missing secrets (using SealedSecret if you want to stay completly gitops).
