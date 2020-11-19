@@ -23,6 +23,7 @@ with open('purge_conf.json') as json_file:
     SLACK_CHANNEL = conf['slack_channel']
     SLACK_EMOJI = conf['slack_emoji']
     LOG_LEVEL = conf['log_level']
+    DATE_FORMAT = conf['date_format']
 
 es = Elasticsearch(ES_HOSTS, http_auth=(ES_USER, ES_PASS), scheme = ES_SCHEME, port = ES_PORT)
 
@@ -63,7 +64,7 @@ while True:
         if INDEX_PREFIXES:
             for prefix in INDEX_PREFIXES:
                 if indice.startswith(prefix):
-                    creation_date =  datetime.strptime(indice, "{}-%Y%m%d".format(prefix))
+                    creation_date =  datetime.strptime(indice, "{}-{}".format(prefix, DATE_FORMAT))
                     quiet_log_msg("debug", "Check indice {} with creation_date : {} because of prefix {}".format(indice, creation_date, prefix))
                     perform_delete(indice, creation_date)
 

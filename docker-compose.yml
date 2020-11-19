@@ -9,5 +9,4 @@ services:
       dockerfile: Dockerfile
     restart: always
     privileged: true
-    volumes:
-      - ./purge.py:/purge.py:z
+

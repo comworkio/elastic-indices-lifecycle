@@ -5,4 +5,4 @@ This project aims to provide a docker image that handle the rotation of elastic 
 ## Git repository
 
 * main repo: https://gitlab.comwork.io/oss/elastic-indices-lifecycle
-* github backup: https://github.com/idrissneumann/elastic-indices-lifecycle
+* github mirror backup: https://github.com/idrissneumann/elastic-indices-lifecycle
