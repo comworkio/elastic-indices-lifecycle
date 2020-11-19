@@ -7,7 +7,6 @@ import pycurl
 import re
 import os
 
-
 def override_conf_from_env( conf, key ):
     env_key = "ES_LIFECYCLE_{}".format(key)
     if os.environ.get(env_key) is not None:
@@ -16,7 +15,10 @@ def override_conf_from_env( conf, key ):
 def override_conf_from_env_array( conf, key ):
     env_key = "ES_LIFECYCLE_{}".format(key)
     if os.environ.get(env_key) is not None:
-        conf[key] = os.environ[env_key].split(",")
+        if os.environ[env_key] is None or os.environ[env_key] == "" or os.environ[env_key] == "null":
+            conf[key] = []
+        else:
+            conf[key] = os.environ[env_key].split(",")
 
 conf=[]
 with open('purge_conf.json') as json_file:
