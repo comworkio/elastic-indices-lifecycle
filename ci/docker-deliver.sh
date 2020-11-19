@@ -3,14 +3,16 @@
 REPO_PATH="/home/centos/elastic-indices-lifecycle/"
 VERSION="1.0"
 
-tag() {
+tag_and_push() {
   docker tag "${1}" comworkio/elastic-indices-lifecycle:latest
+  docker push "comworkio/elastic-indices-lifecycle:${1}"
 }
 
 cd "${REPO_PATH}" && git pull origin master || :
 git push github master 
 
-docker-compose build
-tag "${VERSION}"
-tag "${VERSION}-${CI_COMMIT_SHORT_SHA}"
+COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build
 docker-compose push
+
+tag_and_push "${VERSION}"
+tag_and_push "${VERSION}-${CI_COMMIT_SHORT_SHA}"
