@@ -10,7 +10,7 @@
     "retention": 30,
     "elastic_username": "changeit",
     "elastic_password": "changeit",
-    "slack_url": "https://todefine.com",
+    "slack_token": "changeit",
     "slack_username": "changeit",
     "slack_channel": "#alerting",
     "slack_emoji": ":elastic:",

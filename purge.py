@@ -30,7 +30,7 @@ override_conf_from_env(conf, 'retention')
 override_conf_from_env(conf, 'elastic_username')
 override_conf_from_env(conf, 'elastic_password')
 override_conf_from_env(conf, 'should_slack')
-override_conf_from_env(conf, 'slack_url')
+override_conf_from_env(conf, 'slack_token')
 override_conf_from_env(conf, 'slack_username')
 override_conf_from_env(conf, 'slack_channel')
 override_conf_from_env(conf, 'slack_emoji')
@@ -49,7 +49,7 @@ RETENTION = conf['retention']
 ES_USER = conf['elastic_username']
 ES_PASS = conf['elastic_password']
 SLACK_TRIGGER = conf['should_slack']
-SLACK_URL = conf['slack_url']
+SLACK_URL = "https://hooks.slack.com/services/{}".format(conf['slack_token'])
 SLACK_USERNAME = conf['slack_username']
 SLACK_CHANNEL = conf['slack_channel']
 SLACK_EMOJI = conf['slack_emoji']
