@@ -19,7 +19,7 @@ COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build rollup_${ARCH}
 echo "${DOCKER_ACCESS_TOKEN}" | docker login --username comworkio --password-stdin
 
 if [[ $ARCH == "x86" ]]; then
-  docker-compose push
+  docker-compose push "rollup_${ARCH}"
   tag_and_push "${VERSION}"
   tag_and_push "${VERSION}-${CI_COMMIT_SHORT_SHA}"
 fi
