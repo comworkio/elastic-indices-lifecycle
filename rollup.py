@@ -95,6 +95,8 @@ while True:
     log_msg("debug", "Configuration : log_level = {}, should_slack = {}, elastic_hosts = {}, elastic_user = {}, date_format = {}".format(LOG_LEVEL, SLACK_TRIGGER, ES_HOSTS, ES_USER, DATE_FORMAT))
     log_msg("info", "Check if indices matching with prefixes = {} and suffixes = {}".format(INDEX_PREFIXES, INDEX_SUFFIXES))
     for indice in es.indices.get('*'):
+        quiet_log_msg("debug", "Check if indice {} match with prefixes or suffixes".format(indice))
+
         if INDEX_PREFIXES:
             for prefix in INDEX_PREFIXES:
                 if indice.startswith(prefix):
