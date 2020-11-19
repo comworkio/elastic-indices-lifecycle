@@ -2,7 +2,7 @@
 
 BASE_DIR="$(dirname $0)"
 REPO_PATH="${BASE_DIR}/.."
-VERSION="1.2"
+VERSION="1.3"
 ARCH="${1}"
 
 [[ $ARCH ]] || ARCH="x86"
