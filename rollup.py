@@ -21,7 +21,7 @@ def override_conf_from_env_array( conf, key ):
             conf[key] = os.environ[env_key].split(",")
 
 conf=[]
-with open('purge_conf.json') as json_file:
+with open('rollup_conf.json') as json_file:
     conf = json.load(json_file)
 
 override_conf_from_env(conf, 'elastic_hosts')
