@@ -96,7 +96,7 @@ def log_msg( log_level, message ):
 if is_not_empty(ES_USER) and is_not_empty(ES_PASS) and is_not_empty(ES_SUBPATH):
     es_url_tpl = "{}://{}:{}@{}:{}/{}"
     quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url_tpl.format(ES_SCHEME, ES_USER, "XXXXXXX", ES_HOSTS[0], ES_PORT, ES_SUBPATH)))
-    es = Elasticsearch(es_url_tpl.format(ES_SCHEME, ES_USER, ES_PASS, ES_HOSTS[0], ES_PORT, ES_SUBPATH))
+    es = Elasticsearch([es_url_tpl.format(ES_SCHEME, ES_USER, ES_PASS, ES_HOSTS[0], ES_PORT, ES_SUBPATH)])
 elif is_not_empty(ES_USER) and is_not_empty(ES_PASS):
     es_url_tpl = "{}://{}:{}"
     es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS[0], ES_PORT)
@@ -106,7 +106,7 @@ elif is_not_empty(ES_SUBPATH):
     es_url_tpl = "{}://{}:{}/{}"
     es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS[0], ES_PORT, ES_SUBPATH)
     quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url))
-    es = Elasticsearch(es_url)
+    es = Elasticsearch([es_url])
 else:
     es_url_tpl = "{}://{}:{}"
     es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS[0], ES_PORT)

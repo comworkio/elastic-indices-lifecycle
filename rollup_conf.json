@@ -1,7 +1,7 @@
 {
     "should_slack": "off",
     "date_format": "%Y%m%d",
-    "elastic_hosts": "todefine.com",
+    "elastic_hosts": ["todefine1", "todefine2"],
     "elastic_port": 443,
     "elastic_scheme": "https",
     "wait_time": 43200,
