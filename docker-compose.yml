@@ -2,8 +2,8 @@ version: "3.3"
 
 services:
   purge_sample:
-    image: elastic-purge
-    container_name: elastic-purge
+    image: comworkio/elastic-indices-lifecyle
+    container_name: elastic-indices-lifecyle
     build:
       context: .
       dockerfile: Dockerfile
