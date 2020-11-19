@@ -68,26 +68,6 @@ SLACK_EMOJI = conf['slack_emoji']
 LOG_LEVEL = conf['log_level']
 DATE_FORMAT = conf['date_format']
 
-if is_not_empty(ES_USER) and is_not_empty(ES_PASS) and is_not_empty(ES_SUBPATH):
-    es_url_tpl = "{}://{}:{}@{}:{}/{}"
-    quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url_tpl.format(ES_SCHEME, ES_USER, "XXXXXXX", ES_HOSTS, ES_PORT, ES_SUBPATH)))
-    es = Elasticsearch(es_url_tpl.format(ES_SCHEME, ES_USER, ES_PASS, ES_HOSTS, ES_PORT, ES_SUBPATH))
-elif is_not_empty(ES_USER) and is_not_empty(ES_PASS):
-    es_url_tpl = "{}://{}:{}"
-    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS, ES_PORT)
-    quiet_log_msg("debug", "Connect to elastic search with url = {} and username = {}".format(es_url, ES_USER))
-    es = Elasticsearch(ES_HOSTS, http_auth=(ES_USER, ES_PASS), scheme = ES_SCHEME, port = ES_PORT)
-elif is_not_empty(ES_SUBPATH):
-    es_url_tpl = "{}://{}:{}/{}"
-    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS, ES_PORT, ES_SUBPATH)
-    quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url))
-    es = Elasticsearch(es_url)
-else:
-    es_url_tpl = "{}://{}:{}"
-    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS, ES_PORT)
-    quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url))
-    es = Elasticsearch(es_url)
-
 def slack_message( message ):
     if SLACK_TRIGGER == 'on':
         c = pycurl.Curl()
@@ -112,6 +92,26 @@ def log_msg( log_level, message ):
     if check_log_level(log_level):
         quiet_log_msg (log_level, message)
         slack_message(message)
+
+if is_not_empty(ES_USER) and is_not_empty(ES_PASS) and is_not_empty(ES_SUBPATH):
+    es_url_tpl = "{}://{}:{}@{}:{}/{}"
+    quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url_tpl.format(ES_SCHEME, ES_USER, "XXXXXXX", ES_HOSTS, ES_PORT, ES_SUBPATH)))
+    es = Elasticsearch(es_url_tpl.format(ES_SCHEME, ES_USER, ES_PASS, ES_HOSTS, ES_PORT, ES_SUBPATH))
+elif is_not_empty(ES_USER) and is_not_empty(ES_PASS):
+    es_url_tpl = "{}://{}:{}"
+    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS, ES_PORT)
+    quiet_log_msg("debug", "Connect to elastic search with url = {} and username = {}".format(es_url, ES_USER))
+    es = Elasticsearch(ES_HOSTS, http_auth=(ES_USER, ES_PASS), scheme = ES_SCHEME, port = ES_PORT)
+elif is_not_empty(ES_SUBPATH):
+    es_url_tpl = "{}://{}:{}/{}"
+    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS, ES_PORT, ES_SUBPATH)
+    quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url))
+    es = Elasticsearch(es_url)
+else:
+    es_url_tpl = "{}://{}:{}"
+    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS, ES_PORT)
+    quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url))
+    es = Elasticsearch(es_url)
 
 def perform_delete( indice, creation_date ):
     d = (datetime.now() - creation_date).days
