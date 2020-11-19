@@ -7,5 +7,5 @@ git push github master
 
 docker-compose build
 docker push comworkio/elastic-indices-lifecycle:latest
-docker tag comworkio/elastic-indices-lifecycle $CI_COMMIT_SHORT_SHA comworkio/elastic-indices-lifecycle:1.0
+docker tag $CI_COMMIT_SHORT_SHA comworkio/elastic-indices-lifecycle:1.0
 docker push comworkio/elastic-indices-lifecycle:$CI_COMMIT_SHORT_SHA
