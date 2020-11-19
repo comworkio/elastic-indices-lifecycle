@@ -2,8 +2,8 @@ version: "3.3"
 
 services:
   purge_sample:
-    image: comworkio/elastic-indices-lifecyle
-    container_name: elastic-indices-lifecyle
+    image: comworkio/elastic-indices-lifecycle
+    container_name: elastic-indices-lifecycle
     build: .
     environment:
       - ES_LIFECYCLE_log_level=DEBUG

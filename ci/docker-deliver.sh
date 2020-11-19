@@ -6,4 +6,5 @@ cd "${REPO_PATH}" && git pull origin master || :
 git push github master 
 
 docker-compose build
-docker-compose push
+docker push comworkio/elastic-indices-lifecycle:latest
+docker push comworkio/elastic-indices-lifecycle:CI_COMMIT_SHORT_SHA
