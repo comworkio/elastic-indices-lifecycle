@@ -7,4 +7,4 @@ git push github master
 
 docker-compose build
 docker push comworkio/elastic-indices-lifecycle:latest
-docker push comworkio/elastic-indices-lifecycle:CI_COMMIT_SHORT_SHA
+docker push comworkio/elastic-indices-lifecycle:$CI_COMMIT_SHORT_SHA
