@@ -17,6 +17,8 @@ def override_conf_from_env( conf, key ):
     env_key = "ES_LIFECYCLE_{}".format(key)
     if os.environ.get(env_key) is not None:
         conf[key] = os.environ[env_key]
+    else
+        conf[key] = "nil"
 
 def override_conf_from_env_array( conf, key ):
     env_key = "ES_LIFECYCLE_{}".format(key)
