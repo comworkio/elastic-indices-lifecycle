@@ -7,6 +7,12 @@ import pycurl
 import re
 import os
 
+def is_not_empty ( var ):
+    return var is not None and "" != var and "null" != var and "nil" != var
+
+def is_empty ( var ):
+    return not is_not_empty(var)
+
 def override_conf_from_env( conf, key ):
     env_key = "ES_LIFECYCLE_{}".format(key)
     if os.environ.get(env_key) is not None:
@@ -15,7 +21,7 @@ def override_conf_from_env( conf, key ):
 def override_conf_from_env_array( conf, key ):
     env_key = "ES_LIFECYCLE_{}".format(key)
     if os.environ.get(env_key) is not None:
-        if os.environ[env_key] is None or os.environ[env_key] == "" or os.environ[env_key] == "null":
+        if is_empty(os.environ[env_key]):
             conf[key] = []
         else:
             conf[key] = os.environ[env_key].split(",")
@@ -25,6 +31,7 @@ with open('rollup_conf.json') as json_file:
     conf = json.load(json_file)
 
 override_conf_from_env(conf, 'elastic_hosts')
+override_conf_from_env(conf, 'elastic_subpath')
 override_conf_from_env(conf, 'elastic_port')
 override_conf_from_env(conf, 'elastic_scheme')
 override_conf_from_env(conf, 'wait_time')
@@ -42,6 +49,7 @@ override_conf_from_env_array(conf, 'index_prefixes')
 override_conf_from_env_array(conf, 'index_suffixes')
 
 ES_HOSTS = conf['elastic_hosts']
+ES_SUBPATH = conf['elastic_subpath']
 ES_PORT = int(conf['elastic_port'])
 ES_SCHEME = conf['elastic_scheme']
 WAIT_TIME = int(conf['wait_time'])
@@ -58,7 +66,16 @@ SLACK_EMOJI = conf['slack_emoji']
 LOG_LEVEL = conf['log_level']
 DATE_FORMAT = conf['date_format']
 
-es = Elasticsearch(ES_HOSTS, http_auth=(ES_USER, ES_PASS), scheme = ES_SCHEME, port = ES_PORT)
+if is_not_empty(ES_USER) and is_not_empty(ES_PASS):
+    if is_not_empty(ES_SUBPATH):
+        es = Elasticsearch("{}://{}:{}@{}/{}".format(ES_SCHEME, ES_USER, ES_PASS, ES_HOSTS, ES_PORT, ES_SUBPATH))
+    else
+        es = Elasticsearch(ES_HOSTS, http_auth=(ES_USER, ES_PASS), scheme = ES_SCHEME, port = ES_PORT)
+else
+    if is_not_empty(ES_SUBPATH):
+        es = Elasticsearch("{}://{}:{}/{}".format(ES_SCHEME, ES_HOSTS, ES_PORT, ES_SUBPATH))
+    else
+        es = Elasticsearch("{}://{}:{}".format(ES_SCHEME, ES_HOSTS, ES_PORT))
 
 def slack_message( message ):
     if SLACK_TRIGGER == 'on':
