@@ -32,7 +32,6 @@ conf={}
 with open('rollup_conf.json') as json_file:
     conf = json.load(json_file)
 
-override_conf_from_env(conf, 'elastic_hosts')
 override_conf_from_env(conf, 'elastic_subpath')
 override_conf_from_env(conf, 'elastic_port')
 override_conf_from_env(conf, 'elastic_scheme')
@@ -47,6 +46,7 @@ override_conf_from_env(conf, 'slack_channel')
 override_conf_from_env(conf, 'slack_emoji')
 override_conf_from_env(conf, 'log_level')
 override_conf_from_env(conf, 'date_format')
+override_conf_from_env_array(conf, 'elastic_hosts')
 override_conf_from_env_array(conf, 'index_prefixes')
 override_conf_from_env_array(conf, 'index_suffixes')
 
@@ -95,23 +95,23 @@ def log_msg( log_level, message ):
 
 if is_not_empty(ES_USER) and is_not_empty(ES_PASS) and is_not_empty(ES_SUBPATH):
     es_url_tpl = "{}://{}:{}@{}:{}/{}"
-    quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url_tpl.format(ES_SCHEME, ES_USER, "XXXXXXX", ES_HOSTS, ES_PORT, ES_SUBPATH)))
-    es = Elasticsearch(es_url_tpl.format(ES_SCHEME, ES_USER, ES_PASS, ES_HOSTS, ES_PORT, ES_SUBPATH))
+    quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url_tpl.format(ES_SCHEME, ES_USER, "XXXXXXX", ES_HOSTS[0], ES_PORT, ES_SUBPATH)))
+    es = Elasticsearch(es_url_tpl.format(ES_SCHEME, ES_USER, ES_PASS, ES_HOSTS[0], ES_PORT, ES_SUBPATH))
 elif is_not_empty(ES_USER) and is_not_empty(ES_PASS):
     es_url_tpl = "{}://{}:{}"
-    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS, ES_PORT)
+    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS[0], ES_PORT)
     quiet_log_msg("debug", "Connect to elastic search with url = {} and username = {}".format(es_url, ES_USER))
     es = Elasticsearch(ES_HOSTS, http_auth=(ES_USER, ES_PASS), scheme = ES_SCHEME, port = ES_PORT)
 elif is_not_empty(ES_SUBPATH):
     es_url_tpl = "{}://{}:{}/{}"
-    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS, ES_PORT, ES_SUBPATH)
+    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS[0], ES_PORT, ES_SUBPATH)
     quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url))
     es = Elasticsearch(es_url)
 else:
     es_url_tpl = "{}://{}:{}"
-    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS, ES_PORT)
+    es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS[0], ES_PORT)
     quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url))
-    es = Elasticsearch(es_url)
+    es = Elasticsearch(ES_HOSTS, scheme = ES_SCHEME, port = ES_PORT)
 
 def perform_delete( indice, creation_date ):
     d = (datetime.now() - creation_date).days
