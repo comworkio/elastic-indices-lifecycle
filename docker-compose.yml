@@ -1,0 +1,13 @@
+version: "3.3"
+
+services:
+  purge_sample:
+    image: elastic-purge
+    container_name: elastic-purge
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    privileged: true
+    volumes:
+      - ./purge.py:/purge.py:z
