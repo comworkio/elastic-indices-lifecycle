@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: eslifecycle
-          image: comworkio/elastic-indices-lifecycle:1.0
+          image: comworkio/elastic-indices-lifecycle:latest
           imagePullPolicy: Always
           env:
             - name: ES_LIFECYCLE_elastic_hosts
