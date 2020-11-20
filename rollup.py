@@ -97,7 +97,7 @@ if is_not_empty(ES_USER) and is_not_empty(ES_PASS) and is_not_empty(ES_SUBPATH):
     es_url_tpl = "{}://{}:{}@{}:{}/{}"
     es_url = es_url_tpl.format(ES_SCHEME, ES_USER, "{}", ES_HOSTS[0], ES_PORT, ES_SUBPATH)
     quiet_log_msg("debug", "Connect to elastic search with url = {}".format(es_url.format("XXXXXX")))
-    es = Elasticsearch([es_url.format(ES_PASS)])
+    es = Elasticsearch([es_url.format(ES_PASS)], http_auth=(ES_USER, ES_PASS))
 elif is_not_empty(ES_USER) and is_not_empty(ES_PASS):
     es_url_tpl = "{}://{}:{}"
     es_url = es_url_tpl.format(ES_SCHEME, ES_HOSTS[0], ES_PORT)
@@ -128,6 +128,7 @@ while True:
         quiet_log_msg("debug", "Check if indice {} match with prefixes or suffixes".format(indice))
 
         if INDEX_PREFIXES:
+            quiet_log_msg("debug", "Check if indice i={} match with prefixes p=".format(indice, INDEX_PREFIXES))
             for prefix in INDEX_PREFIXES:
                 if indice.startswith(prefix):
                     creation_date =  datetime.strptime(indice, "{}-{}".format(prefix, DATE_FORMAT))
@@ -135,10 +136,11 @@ while True:
                     perform_delete(indice, creation_date)
 
         if INDEX_SUFFIXES:
+            quiet_log_msg("debug", "Check if indice i={} match with suffixes s=".format(indice, INDEX_SUFFIXES))
             for suffix in INDEX_SUFFIXES:
                 capture = re.findall("^.*{}-([0-9\-\.]+)$".format(suffix), indice)
                 if capture:
                     creation_date =  datetime.strptime(capture[0], DATE_FORMAT)
-                    quiet_log_msg("debug", "Check indice {} with creation_date : {} because of suffix {}".format(indice, creation_date, suffix))
+                    quiet_log_msg("debug", "Check indice i={} with creation_date : {} because of suffix {}".format(indice, creation_date, suffix))
                     perform_delete(indice, creation_date)
     sleep(WAIT_TIME)

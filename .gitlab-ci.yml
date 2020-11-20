@@ -10,7 +10,7 @@ github-mirror:
   tags:
     - elasticlifecycle
 
-docker-deliver-x86:
+docker-x86:
   stage: publish
   script:
     - setsid ./ci/docker-deliver.sh "x86"
@@ -19,7 +19,7 @@ docker-deliver-x86:
   tags:
     - elasticlifecycle
 
-docker-deliver-arm:
+docker-arm:
   stage: publish
   script:
     - setsid ./ci/docker-deliver.sh "arm"
