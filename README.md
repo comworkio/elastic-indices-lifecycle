@@ -60,3 +60,7 @@ There will be a nice helm chart some days.
 For now, you'll find an example of kubernetes yaml [here](https://gitlab.comwork.io/oss/elastic-indices-lifecycle/-/tree/master/kubernetes) files using kustomize in order to deploy two environments in a gitops way.
 
 You'll see that you'll also need to create the missing secrets (using SealedSecret if you want to stay completly gitops).
+
+Here's the result of using this kustomize example on ArgoCD :
+
+![argocd](images/argocd.jpeg)
