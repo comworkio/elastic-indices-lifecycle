@@ -61,6 +61,6 @@ For now, you'll find an example of kubernetes yaml [here](https://gitlab.comwork
 
 You'll see that you'll also need to create the missing secrets (using SealedSecret if you want to stay completly gitops).
 
-Here's the result of using this kustomize example on ArgoCD :
+Here's the result of using this kustomize example on ArgoCD:
 
-![argocd](images/argocd.png)
+![argocd](https://gitlab.comwork.io/oss/elasticstack/elastic-indices-lifecycle/-/raw/master/images/argocd.png)
