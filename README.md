@@ -63,4 +63,4 @@ You'll see that you'll also need to create the missing secrets (using SealedSecr
 
 Here's the result of using this kustomize example on ArgoCD :
 
-![argocd](images/argocd.jpeg)
+![argocd](images/argocd.png)
