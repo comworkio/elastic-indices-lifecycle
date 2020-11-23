@@ -17,4 +17,4 @@ COPY rollup/rollup_conf.json /
 FROM base AS backup
 
 COPY backup/backup.py /script.py
-COPY backup/rollup.py rollup_conf.json /
+COPY backup/backup_config.json /
