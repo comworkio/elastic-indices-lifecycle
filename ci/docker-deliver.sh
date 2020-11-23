@@ -2,24 +2,27 @@
 
 BASE_DIR="$(dirname $0)"
 REPO_PATH="${BASE_DIR}/.."
-VERSION="1.6"
+VERSION="1.7"
 ARCH="${1}"
+IMAGE="${2}"
 
 [[ $ARCH ]] || ARCH="x86"
 
 tag_and_push() {
-  docker tag "comworkio/elastic-indices-lifecycle:latest" "comworkio/elastic-indices-lifecycle:${1}"
-  docker push "comworkio/elastic-indices-lifecycle:${1}"
+  SUFFIX=""
+  [[ $IMAGE != "rollup" ]] && SUFFIX="-${IMAGE}"
+  docker tag "comworkio/elastic-indices-lifecycle${SUFFIX}:latest" "comworkio/elastic-indices-lifecycle${SUFFIX}:${1}"
+  docker push "comworkio/elastic-indices-lifecycle${SUFFIX}:${1}"
 }
 
 cd "${REPO_PATH}" && git pull origin master || : 
 
-COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build rollup_${ARCH}
+COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build ${IMAGE}_${ARCH}
 
 echo "${DOCKER_ACCESS_TOKEN}" | docker login --username comworkio --password-stdin
 
 if [[ $ARCH == "x86" ]]; then
-  docker-compose push "rollup_${ARCH}"
+  docker-compose push "${IMAGE}_${ARCH}"
   tag_and_push "${VERSION}"
   tag_and_push "${VERSION}-${CI_COMMIT_SHORT_SHA}"
 fi

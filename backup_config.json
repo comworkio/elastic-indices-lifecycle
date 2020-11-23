@@ -1,0 +1,18 @@
+{
+    "slack_token": "changeit",
+    "slack_channel": "#alerting_supervision_metier",
+    "slack_username": "elastic_backup",
+    "slack_emoji": ":elastic:",
+    "should_slack": "off",
+    "hostname": "es1",
+    "elastic_config_url": "https://elastic.changeit.com",
+    "elastic_username": "changeit",
+    "elastic_password": "changeit",
+    "elastic_backup_path": "/backups",
+    "elastic_backup_repository": "elastic_backup",
+    "elastic_backup_retention": 2,
+    "wait_time": 43200,
+    "fs_group": "root",
+    "fs_user": "root",
+    "pycurl_verbose": true
+  }

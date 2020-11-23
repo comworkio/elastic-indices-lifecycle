@@ -7,6 +7,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: rollup
     environment:
       - ES_LIFECYCLE_log_level=DEBUG
       - ES_LIFECYCLE_index_prefixes=logs,metrics
@@ -16,6 +17,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.arm
+      target: rollup
     environment:
       - ES_LIFECYCLE_log_level=DEBUG
       - ES_LIFECYCLE_index_prefixes=logs,metrics
+  backup_x86:
+    image: comworkio/elastic-indices-lifecycle-backup
+    container_name: elastic-indices-lifecycle-backup
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backup
+  rollup_arm:
+    image: comworkio/elastic-indices-lifecycle-backup
+    container_name: elastic-indices-lifecycle-backup
+    build:
+      context: .
+      dockerfile: Dockerfile.arm
+      target: backup

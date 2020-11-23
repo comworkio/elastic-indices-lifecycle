@@ -10,19 +10,37 @@ github-mirror:
   tags:
     - elasticlifecycle
 
-docker-x86:
+rollup-x86:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "x86"
+    - setsid ./ci/docker-deliver.sh "x86" "rollup"
   only:
     - /^(master.*)$/
   tags:
     - elasticlifecycle
 
-docker-arm:
+rollup-arm:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "arm"
+    - setsid ./ci/docker-deliver.sh "arm" "rollup"
+  only:
+    - /^(master.*)$/
+  tags:
+    - buildarm
+
+backup-x86:
+  stage: publish
+  script:
+    - setsid ./ci/docker-deliver.sh "x86" "backup"
+  only:
+    - /^(master.*)$/
+  tags:
+    - elasticlifecycle
+
+backup-arm:
+  stage: publish
+  script:
+    - setsid ./ci/docker-deliver.sh "arm" "backup"
   only:
     - /^(master.*)$/
   tags:
