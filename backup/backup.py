@@ -120,7 +120,7 @@ def check_snapshots_config( url, path ):
     c.setopt(pycurl.POST, 1)
     c.setopt(pycurl.VERBOSE, pycurl_verbose)
     data = json.dumps({"type":"fs", "settings":{"location": full_path, "compress": True}})
-    c.setopt(pycurl.POSTFIE(LDS, data)
+    c.setopt(pycurl.POSTFIELDS, data)
     c.perform()
     rtn_code = c.getinfo(pycurl.RESPONSE_CODE)
     log_msg("info", "[{}][check_snapshots_config] | ElasticSearch | Repository config [{}] generated successfully... (code = {})".format(hostname, url, rtn_code))
