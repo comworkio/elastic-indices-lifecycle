@@ -58,10 +58,10 @@ elastic_backup_path = conf['elastic_backup_path']
 elastic_backup_retention = conf['elastic_backup_retention']
 elastic_username = conf['elastic_username']
 elastic_password = conf['elastic_password']
-log_level = conf['log_level']
+backup_log_level = conf['log_level']
 pycurl_verbose = False
 
-if log_level == "debug":
+if backup_log_level == "debug":
     pycurl_verbose = True
 
 fs_user = conf['fs_user']
@@ -83,7 +83,7 @@ def slack_message( message ):
         c.perform()
 
 def check_log_level ( log_level ):
-    if LOG_LEVEL == "debug" or LOG_LEVEL == "DEBUG":
+    if backup_log_level == "debug" or backup_log_level == "DEBUG":
         return True
     else:
         return log_level != "debug" and log_level != "DEBUG"
@@ -120,7 +120,7 @@ def check_snapshots_config( url, path ):
     c.setopt(pycurl.POST, 1)
     c.setopt(pycurl.VERBOSE, pycurl_verbose)
     data = json.dumps({"type":"fs", "settings":{"location": full_path, "compress": True}})
-    c.setopt(pycurl.POSTFIELDS, data)
+    c.setopt(pycurl.POSTFIE(LDS, data)
     c.perform()
     rtn_code = c.getinfo(pycurl.RESPONSE_CODE)
     log_msg("info", "[{}][check_snapshots_config] | ElasticSearch | Repository config [{}] generated successfully... (code = {})".format(hostname, url, rtn_code))
