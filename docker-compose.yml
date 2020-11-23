@@ -28,7 +28,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: backup
-  rollup_arm:
+  backup_arm:
     image: comworkio/elastic-indices-lifecycle-backup
     container_name: elastic-indices-lifecycle-backup
     build:
