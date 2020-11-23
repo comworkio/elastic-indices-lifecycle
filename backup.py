@@ -42,7 +42,7 @@ override_conf_from_env(conf, 'elastic_backup_path')
 override_conf_from_env(conf, 'elastic_backup_retention')
 override_conf_from_env(conf, 'elastic_username')
 override_conf_from_env(conf, 'elastic_password')
-override_conf_from_env(conf, 'pycurl_verbose')
+override_conf_from_env(conf, 'log_level')
 override_conf_from_env(conf, 'fs_user')
 override_conf_from_env(conf, 'fs_group')
 override_conf_from_env(conf, 'wait_time')
@@ -58,7 +58,12 @@ elastic_backup_path = conf['elastic_backup_path']
 elastic_backup_retention = conf['elastic_backup_retention']
 elastic_username = conf['elastic_username']
 elastic_password = conf['elastic_password']
-pycurl_verbose = conf['pycurl_verbose']
+log_level = conf['log_level']
+pycurl_verbose = False
+
+if log_level == "debug":
+    pycurl_verbose = True
+
 fs_user = conf['fs_user']
 fs_group = conf['fs_group']
 wait_time = conf['wait_time']
@@ -77,30 +82,38 @@ def slack_message( message ):
         c.setopt(pycurl.POSTFIELDS, data)
         c.perform()
 
-def quiet_log_msg ( message ):
-    print (message)
+def check_log_level ( log_level ):
+    if LOG_LEVEL == "debug" or LOG_LEVEL == "DEBUG":
+        return True
+    else:
+        return log_level != "debug" and log_level != "DEBUG"
 
-def log_msg( message ):
-    quiet_log_msg (message)
-    slack_message(message)
+def quiet_log_msg ( log_level, message ):
+    if check_log_level(log_level):
+        print ("[{}] {}".format(log_level, message))
+
+def log_msg( log_level, message ):
+    if check_log_level(log_level):
+        quiet_log_msg (log_level, message)
+        slack_message(message)
 
 def quiet_mkdir( dirName ):
     if not os.path.exists(dirName):
         os.makedirs(dirName)
-        quiet_log_msg("[quiet_mkdir] Directory {} created".format(dirName))
+        quiet_log_msg("debug", "[quiet_mkdir] Directory {} created".format(dirName))
     else:
-        quiet_log_msg("[quiet_mkdir] Directory {} already exists".format(dirName))
+        quiet_log_msg("debug", "[quiet_mkdir] Directory {} already exists".format(dirName))
     uid, gid =  pwd.getpwnam(fs_user).pw_uid, pwd.getpwnam(fs_group).pw_uid
     os.chown(dirName, uid, gid)
-    quiet_log_msg("[quiet_mkdir] chown {} with user = {}, group = {}, uid = {}, gid = {}".format(dirName, fs_user, fs_group, uid, gid))
+    quiet_log_msg("debug", "[quiet_mkdir] chown {} with user = {}, group = {}, uid = {}, gid = {}".format(dirName, fs_user, fs_group, uid, gid))
 
 def check_snapshots_config( url, path ):
     if not os.path.exists(path):
-        log_msg("[{}][check_snapshots_config] | ElasticSearch | !!! ERROR !!! | Backup folder [{}] does not exists ...".format(hostname, path))
+        log_msg("info", "[{}][check_snapshots_config] | ElasticSearch | !!! ERROR !!! | Backup folder [{}] does not exists ...".format(hostname, path))
         sys.exit(1)
     full_path = "{}/{}".format(path, hostname)
     quiet_mkdir(full_path)
-    log_msg("[{}][check_snapshots_config] | ElasticSearch | Creating repository config on elastic: {}".format(hostname, full_path))
+    log_msg("info", "[{}][check_snapshots_config] | ElasticSearch | Creating repository config on elastic: {}".format(hostname, full_path))
     c = pycurl.Curl()
     c.setopt(pycurl.URL, url)
     c.setopt(pycurl.HTTPHEADER, http_headers)
@@ -110,11 +123,11 @@ def check_snapshots_config( url, path ):
     c.setopt(pycurl.POSTFIELDS, data)
     c.perform()
     rtn_code = c.getinfo(pycurl.RESPONSE_CODE)
-    log_msg("[{}][check_snapshots_config] | ElasticSearch | Repository config [{}] generated successfully... (code = {})".format(hostname, url, rtn_code))
+    log_msg"info", ("[{}][check_snapshots_config] | ElasticSearch | Repository config [{}] generated successfully... (code = {})".format(hostname, url, rtn_code))
 
 def elastic_snapshot( st ):
     url = elastic_config_url + '/' + hostname + '-' + str(st) + '?wait_for_completion=true&pretty'
-    log_msg("[{}][elastic_snapshot] | ElasticSearch | Creating snapshot on elastic: {}".format(hostname, url))
+    log_msg("info", "[{}][elastic_snapshot] | ElasticSearch | Creating snapshot on elastic: {}".format(hostname, url))
     c = pycurl.Curl()
     c.setopt(pycurl.URL, url)
     c.setopt(pycurl.HTTPHEADER, http_headers)
@@ -124,10 +137,10 @@ def elastic_snapshot( st ):
     c.setopt(pycurl.POSTFIELDS, data)
     c.perform()
     rtn_code = c.getinfo(pycurl.RESPONSE_CODE)
-    log_msg("[{}][elastic_snapshot] | ElasticSearch | Snapshot [{}-{}] generated successfully... (code = {})".format(hostname, hostname, str(st), rtn_code))
+    log_msg"info",("[{}][elastic_snapshot] | ElasticSearch | Snapshot [{}-{}] generated successfully... (code = {})".format(hostname, hostname, str(st), rtn_code))
 
 def delete_snapshot( snapshot ):
-    log_msg("[{}][delete_snapshot] | ElasticSearch | Delete snapshot on filesystem: {}".format(hostname, snapshot))
+    log_msg("info", "[{}][delete_snapshot] | ElasticSearch | Delete snapshot on filesystem: {}".format(hostname, snapshot))
     c = pycurl.Curl()
     c.setopt(pycurl.URL, elastic_config_url + '/' + snapshot)
     c.setopt(pycurl.HTTPHEADER, http_headers)
@@ -137,7 +150,7 @@ def delete_snapshot( snapshot ):
     c.setopt(pycurl.POSTFIELDS, data)
     c.perform()
     rtn_code = c.getinfo(pycurl.RESPONSE_CODE)
-    log_msg ("[{}][delete_snapshot] | ElasticSearch | Snapshot [{}] deleted successfully... (code = {})".format(hostname, snapshot, rtn_code))
+    log_msg ("info", "[{}][delete_snapshot] | ElasticSearch | Snapshot [{}] deleted successfully... (code = {})".format(hostname, snapshot, rtn_code))
 
 def get_snapshot_name_from_uuid ( uuid ):
     buffer = BytesIO()
@@ -153,10 +166,10 @@ def get_snapshot_name_from_uuid ( uuid ):
     for snapshot in snapshots['snapshots']:
         if snapshot['uuid'] == uuid:
             name = snapshot['snapshot']
-            log_msg("[{}][[get_snapshot_name_from_uuid] snapshot name for uuid = {} is {}".format(hostname, uuid, name))
+            log_msg("info", "[{}][[get_snapshot_name_from_uuid] snapshot name for uuid = {} is {}".format(hostname, uuid, name))
             return name
 
-    quiet_log_msg("[{}][get_snapshot_name_from_uuid] no name found for uuid = {}".format(hostname, uuid))
+    quiet_log_msg("debug", "[{}][get_snapshot_name_from_uuid] no name found for uuid = {}".format(hostname, uuid))
     return ""
 
 def purge_elastic_backups( path, ts ):

@@ -14,5 +14,5 @@
     "wait_time": 43200,
     "fs_group": "root",
     "fs_user": "root",
-    "pycurl_verbose": true
-  }
+    "log_level": "info"
+}
