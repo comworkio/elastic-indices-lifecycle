@@ -41,7 +41,7 @@ rollup-arm:
 backup-x86:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "x86" "backup" "1.8"
+    - setsid ./ci/docker-deliver.sh "x86" "backup" "1.9"
   only:
     refs:
       - /^(master.*)$/
@@ -55,7 +55,7 @@ backup-x86:
 backup-arm:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "arm" "backup" "1.8"
+    - setsid ./ci/docker-deliver.sh "arm" "backup" "1.9"
   only:
     refs:
       - /^(master.*)$/

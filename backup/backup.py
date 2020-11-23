@@ -123,7 +123,7 @@ def check_snapshots_config( url, path ):
     c.setopt(pycurl.POSTFIELDS, data)
     c.perform()
     rtn_code = c.getinfo(pycurl.RESPONSE_CODE)
-    log_msg"info", ("[{}][check_snapshots_config] | ElasticSearch | Repository config [{}] generated successfully... (code = {})".format(hostname, url, rtn_code))
+    log_msg("info", "[{}][check_snapshots_config] | ElasticSearch | Repository config [{}] generated successfully... (code = {})".format(hostname, url, rtn_code))
 
 def elastic_snapshot( st ):
     url = elastic_config_url + '/' + hostname + '-' + str(st) + '?wait_for_completion=true&pretty'
