@@ -11,10 +11,10 @@ CMD [ "python3", "/script.py" ]
 
 FROM base AS rollup
 
-COPY rollup.py  /script.py
-COPY rollup_conf.json /
+COPY rollup/rollup.py  /script.py
+COPY rollup/rollup_conf.json /
 
 FROM base AS backup
 
-COPY backup.py /script.py
-COPY rollup.py rollup_conf.json /
+COPY backup/backup.py /script.py
+COPY backup/rollup.py rollup_conf.json /

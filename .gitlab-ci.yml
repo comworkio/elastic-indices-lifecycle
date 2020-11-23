@@ -13,35 +13,55 @@ github-mirror:
 rollup-x86:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "x86" "rollup"
+    - setsid ./ci/docker-deliver.sh "x86" "rollup" "1.8"
   only:
-    - /^(master.*)$/
+    refs:
+      - /^(master.*)$/
+    changes:
+      - rollup/*
+      - Dockerfile
+      - Dockerfile.arm
   tags:
     - elasticlifecycle
 
 rollup-arm:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "arm" "rollup"
+    - setsid ./ci/docker-deliver.sh "arm" "rollup" "1.8"
   only:
-    - /^(master.*)$/
+    refs:
+      - /^(master.*)$/
+    changes:
+      - rollup/*
+      - Dockerfile
+      - Dockerfile.arm
   tags:
     - buildarm
 
 backup-x86:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "x86" "backup"
+    - setsid ./ci/docker-deliver.sh "x86" "backup" "1.8"
   only:
-    - /^(master.*)$/
+    refs:
+      - /^(master.*)$/
+    changes:
+      - backup/*
+      - Dockerfile
+      - Dockerfile.arm
   tags:
     - elasticlifecycle
 
 backup-arm:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "arm" "backup"
+    - setsid ./ci/docker-deliver.sh "arm" "backup" "1.8"
   only:
-    - /^(master.*)$/
+    refs:
+      - /^(master.*)$/
+    changes:
+      - backup/*
+      - Dockerfile
+      - Dockerfile.arm
   tags:
     - buildarm

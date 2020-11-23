@@ -137,7 +137,7 @@ def elastic_snapshot( st ):
     c.setopt(pycurl.POSTFIELDS, data)
     c.perform()
     rtn_code = c.getinfo(pycurl.RESPONSE_CODE)
-    log_msg"info",("[{}][elastic_snapshot] | ElasticSearch | Snapshot [{}-{}] generated successfully... (code = {})".format(hostname, hostname, str(st), rtn_code))
+    log_msg("info", "[{}][elastic_snapshot] | ElasticSearch | Snapshot [{}-{}] generated successfully... (code = {})".format(hostname, hostname, str(st), rtn_code))
 
 def delete_snapshot( snapshot ):
     log_msg("info", "[{}][delete_snapshot] | ElasticSearch | Delete snapshot on filesystem: {}".format(hostname, snapshot))
