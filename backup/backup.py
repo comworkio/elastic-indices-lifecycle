@@ -9,12 +9,6 @@ from base64 import b64encode
 from time import sleep
 from io import BytesIO
 
-def is_not_empty ( var ):
-    return var is not None and "" != var and "null" != var and "nil" != var
-
-def is_empty ( var ):
-    return not is_not_empty(var)
-
 def override_conf_from_env( conf, key ):
     env_key = "ES_LIFECYCLE_{}".format(key)
     if os.environ.get(env_key) is not None:
