@@ -44,8 +44,8 @@ Here the environment variable you can use with your container :
 * `ES_LIFECYCLE_elastic_scheme`: elastic scheme (`http` or `https`)
 * `ES_LIFECYCLE_elastic_username`: username (need to have all rights on the cluster)
 * `ES_LIFECYCLE_elastic_password`: password
-* `ES_LIFECYCLE_wait_time`: wait time in seconds to perform the rollup jobs (default: 12h)
-* `ES_LIFECYCLE_retention`: retention in days to remove the old indices (default: 30 days)
+* `ES_LIFECYCLE_wait_time`: wait time in seconds to perform the rollup jobs (default: `43200` which equals 12h)
+* `ES_LIFECYCLE_retention`: retention in days to remove the old indices (default: `30` days)
 * `ES_LIFECYCLE_log_level`: log level `debug` or `info` (default: `info`)
 * `ES_LIFECYCLE_should_slack`: `on` in order to enable Slack notification (default: `off`)
 * `ES_LIFECYCLE_slack_token`: slack token
@@ -91,7 +91,7 @@ Here the environment variable you can use with your container :
 * `ES_LIFECYCLE_elastic_config_url`: elastic api url (ex: `https://elasticsearch.xxxx.com/api` or `http://localhost:9200`)
 * `ES_LIFECYCLE_elastic_username`: username (need to have all rights on the cluster)
 * `ES_LIFECYCLE_elastic_password`: password
-* `ES_LIFECYCLE_wait_time`: wait time in seconds to perform the rollup jobs (default: 12h)
+* `ES_LIFECYCLE_wait_time`: wait time in seconds to perform the rollup jobs (default: `43200` which equals 12h)
 * `ES_LIFECYCLE_hostname`: the hostname
 * `ES_LIFECYCLE_should_slack`: `on` in order to enable Slack notification (default: `off`)
 * `ES_LIFECYCLE_slack_token`: slack token
