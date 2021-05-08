@@ -6,6 +6,7 @@ from datetime import datetime
 import pycurl
 import re
 import os
+import sys
 
 def is_not_empty ( var ):
     return var is not None and "" != var and "null" != var and "nil" != var
@@ -119,7 +120,11 @@ def perform_delete( indice, creation_date ):
     quiet_log_msg("debug", "Check if d={} >= r={} for the indice {}".format(d, RETENTION, indice))
     if d >= RETENTION:
         log_msg("info", "Removing indice i={} because d={} >= r={}".format(indice, d, RETENTION))
-        es.indices.delete(index=indice, ignore=[400, 404])
+        try:
+            es.indices.delete(index=indice, ignore=[400, 404])
+        except:
+            log_msg("error", "Unexpected error on deleting indice = {}, error = {}".format(indice, sys.exc_info()[0]))
+
 
 while True:
     log_msg("debug", "Configuration : log_level = {}, should_slack = {}, elastic_hosts = {}, elastic_user = {}, date_format = {}".format(LOG_LEVEL, SLACK_TRIGGER, ES_HOSTS, ES_USER, DATE_FORMAT))
