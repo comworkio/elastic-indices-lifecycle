@@ -13,12 +13,11 @@ mirror:
 rollup-x86:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "x86" "rollup" "7.15.1-1.0"
+    - setsid ./ci/docker-deliver.sh "x86" "rollup" "7.15.1-1.1"
   only:
     refs:
       - /^(master.*)$/
     changes:
-      - .gitlab-ci.yml
       - rollup/*
       - requirements.txt
       - Dockerfile
@@ -29,12 +28,11 @@ rollup-x86:
 rollup-arm:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "arm" "rollup" "7.15.1-1.0"
+    - setsid ./ci/docker-deliver.sh "arm" "rollup" "7.15.1-1.1"
   only:
     refs:
       - /^(master.*)$/
     changes:
-      - .gitlab-ci.yml
       - rollup/*
       - requirements.txt
       - Dockerfile.arm
@@ -50,7 +48,6 @@ backup-x86:
     refs:
       - /^(master.*)$/
     changes:
-      - .gitlab-ci.yml
       - backup/*
       - requirements.txt
       - Dockerfile
@@ -66,7 +63,6 @@ backup-arm:
     refs:
       - /^(master.*)$/
     changes:
-      - .gitlab-ci.yml
       - backup/*
       - requirements.txt
       - Dockerfile.arm

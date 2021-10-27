@@ -129,23 +129,26 @@ def perform_delete( indice, creation_date ):
 while True:
     log_msg("debug", "Configuration : log_level = {}, should_slack = {}, elastic_hosts = {}, elastic_user = {}, date_format = {}".format(LOG_LEVEL, SLACK_TRIGGER, ES_HOSTS, ES_USER, DATE_FORMAT))
     log_msg("info", "Check if indices matching with prefixes = {} and suffixes = {}".format(INDEX_PREFIXES, INDEX_SUFFIXES))
-    for indice in es.indices.get('*'):
-        quiet_log_msg("debug", "Check if indice {} match with prefixes or suffixes".format(indice))
+    try:
+        for indice in es.indices.get('*'):
+            quiet_log_msg("debug", "Check if indice {} match with prefixes or suffixes".format(indice))
 
-        if INDEX_PREFIXES:
-            quiet_log_msg("debug", "Check if indice i={} match with prefixes p=".format(indice, INDEX_PREFIXES))
-            for prefix in INDEX_PREFIXES:
-                if indice.startswith(prefix):
-                    creation_date =  datetime.strptime(indice, "{}-{}".format(prefix, DATE_FORMAT))
-                    quiet_log_msg("debug", "Check indice {} with creation_date : {} because of prefix {}".format(indice, creation_date, prefix))
-                    perform_delete(indice, creation_date)
+            if INDEX_PREFIXES:
+                quiet_log_msg("debug", "Check if indice i={} match with prefixes p=".format(indice, INDEX_PREFIXES))
+                for prefix in INDEX_PREFIXES:
+                    if indice.startswith(prefix):
+                        creation_date =  datetime.strptime(indice, "{}-{}".format(prefix, DATE_FORMAT))
+                        quiet_log_msg("debug", "Check indice {} with creation_date : {} because of prefix {}".format(indice, creation_date, prefix))
+                        perform_delete(indice, creation_date)
 
-        if INDEX_SUFFIXES:
-            quiet_log_msg("debug", "Check if indice i={} match with suffixes s=".format(indice, INDEX_SUFFIXES))
-            for suffix in INDEX_SUFFIXES:
-                capture = re.findall("^.*{}-([0-9\-\.]+)$".format(suffix), indice)
-                if capture:
-                    creation_date =  datetime.strptime(capture[0], DATE_FORMAT)
-                    quiet_log_msg("debug", "Check indice i={} with creation_date : {} because of suffix {}".format(indice, creation_date, suffix))
-                    perform_delete(indice, creation_date)
+            if INDEX_SUFFIXES:
+                quiet_log_msg("debug", "Check if indice i={} match with suffixes s=".format(indice, INDEX_SUFFIXES))
+                for suffix in INDEX_SUFFIXES:
+                    capture = re.findall("^.*{}-([0-9\-\.]+)$".format(suffix), indice)
+                    if capture:
+                        creation_date =  datetime.strptime(capture[0], DATE_FORMAT)
+                        quiet_log_msg("debug", "Check indice i={} with creation_date : {} because of suffix {}".format(indice, creation_date, suffix))
+                        perform_delete(indice, creation_date)
+    except:
+        log_msg("error", "Unexpected error on indices loop = {}".format(sys.exc_info()[0]))
     sleep(WAIT_TIME)
