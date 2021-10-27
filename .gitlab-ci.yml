@@ -13,7 +13,7 @@ mirror:
 rollup-x86:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "x86" "rollup" "7.15.1-1.1"
+    - setsid ./ci/docker-deliver.sh "x86" "rollup" "7.15.1-1.2"
   only:
     refs:
       - /^(master.*)$/
@@ -28,7 +28,7 @@ rollup-x86:
 rollup-arm:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "arm" "rollup" "7.15.1-1.1"
+    - setsid ./ci/docker-deliver.sh "arm" "rollup" "7.15.1-1.2"
   only:
     refs:
       - /^(master.*)$/

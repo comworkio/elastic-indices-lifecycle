@@ -137,18 +137,28 @@ while True:
                 quiet_log_msg("debug", "Check if indice i={} match with prefixes p=".format(indice, INDEX_PREFIXES))
                 for prefix in INDEX_PREFIXES:
                     if indice.startswith(prefix):
-                        creation_date =  datetime.strptime(indice, "{}-{}".format(prefix, DATE_FORMAT))
-                        quiet_log_msg("debug", "Check indice {} with creation_date : {} because of prefix {}".format(indice, creation_date, prefix))
-                        perform_delete(indice, creation_date)
+                        try:
+                            creation_date =  datetime.strptime(indice, "{}-{}".format(prefix, DATE_FORMAT))
+                            quiet_log_msg("debug", "Check indice {} with creation_date : {} because of prefix {}".format(indice, creation_date, prefix))
+                            perform_delete(indice, creation_date)
+                        except ValueError as ve:
+                            log_msg("warn", "Unexpected ValueError = {} on indice = {}, skipping...".format(ve, indice))
 
             if INDEX_SUFFIXES:
                 quiet_log_msg("debug", "Check if indice i={} match with suffixes s=".format(indice, INDEX_SUFFIXES))
                 for suffix in INDEX_SUFFIXES:
                     capture = re.findall("^.*{}-([0-9\-\.]+)$".format(suffix), indice)
                     if capture:
-                        creation_date =  datetime.strptime(capture[0], DATE_FORMAT)
-                        quiet_log_msg("debug", "Check indice i={} with creation_date : {} because of suffix {}".format(indice, creation_date, suffix))
-                        perform_delete(indice, creation_date)
+                        try:
+                            creation_date =  datetime.strptime(capture[0], DATE_FORMAT)
+                            quiet_log_msg("debug", "Check indice i={} with creation_date : {} because of suffix {}".format(indice, creation_date, suffix))
+                            perform_delete(indice, creation_date)
+                        except ValueError as ve:
+                            log_msg("warn", "Unexpected ValueError = {} on indice = {}, skipping...".format(ve, indice))
+
+        log_msg("error", "Unexpected ValueError on indices loop deleting error = {}".format(ve))
+    except IOError as ioe:
+        log_msg("error", "Unexpected IOError on indices loop = {}".format(ioe))
     except:
         log_msg("error", "Unexpected error on indices loop = {}".format(sys.exc_info()[0]))
     sleep(WAIT_TIME)
