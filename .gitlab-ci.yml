@@ -18,6 +18,7 @@ rollup-x86:
     refs:
       - /^(master.*)$/
     changes:
+      - .gitlab-ci.yml
       - rollup/*
       - requirements.txt
       - Dockerfile
@@ -33,6 +34,7 @@ rollup-arm:
     refs:
       - /^(master.*)$/
     changes:
+      - .gitlab-ci.yml
       - rollup/*
       - requirements.txt
       - Dockerfile.arm
@@ -48,6 +50,7 @@ backup-x86:
     refs:
       - /^(master.*)$/
     changes:
+      - .gitlab-ci.yml
       - backup/*
       - requirements.txt
       - Dockerfile
@@ -63,6 +66,7 @@ backup-arm:
     refs:
       - /^(master.*)$/
     changes:
+      - .gitlab-ci.yml
       - backup/*
       - requirements.txt
       - Dockerfile.arm
