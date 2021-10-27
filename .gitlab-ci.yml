@@ -13,12 +13,13 @@ mirror:
 rollup-x86:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "x86" "rollup" "1.9"
+    - setsid ./ci/docker-deliver.sh "x86" "rollup" "7.15.1-1.0"
   only:
     refs:
       - /^(master.*)$/
     changes:
       - rollup/*
+      - requirements.txt
       - Dockerfile
       - Dockerfile.arm
   tags:
@@ -27,12 +28,13 @@ rollup-x86:
 rollup-arm:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "arm" "rollup" "1.9"
+    - setsid ./ci/docker-deliver.sh "arm" "rollup" "7.15.1-1.0"
   only:
     refs:
       - /^(master.*)$/
     changes:
       - rollup/*
+      - requirements.txt
       - Dockerfile
       - Dockerfile.arm
   tags:
@@ -41,12 +43,13 @@ rollup-arm:
 backup-x86:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "x86" "backup" "1.12"
+    - setsid ./ci/docker-deliver.sh "x86" "backup" "7.15.1-1.0"
   only:
     refs:
       - /^(master.*)$/
     changes:
       - backup/*
+      - requirements.txt
       - Dockerfile
       - Dockerfile.arm
   tags:
@@ -55,12 +58,13 @@ backup-x86:
 backup-arm:
   stage: publish
   script:
-    - setsid ./ci/docker-deliver.sh "arm" "backup" "1.12"
+    - setsid ./ci/docker-deliver.sh "arm" "backup" "7.15.1-1.0"
   only:
     refs:
       - /^(master.*)$/
     changes:
       - backup/*
+      - requirements.txt
       - Dockerfile
       - Dockerfile.arm
   tags:

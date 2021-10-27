@@ -3,9 +3,11 @@ FROM ubuntu:20.04 AS base
 ENV PYTHONUNBUFFERED "1"
 ENV PYTHONIOENCODING "UTF-8"
 
+COPY requirements.txt /
+
 RUN apt-get update -y && \
     apt-get install curl python3 python3-pip libcurl4-openssl-dev libssl-dev -y && \
-    pip3 install elasticsearch pycurl
+    pip3 install -r /requirements.txt
 
 CMD [ "python3", "/script.py" ]
 
