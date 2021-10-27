@@ -17,11 +17,6 @@ tag_and_push() {
 
 cd "${REPO_PATH}" && git pull origin master || : 
 
-if [[ $ARCH == "arm" ]]; then
-  df -h
-  docker system prune -af
-fi
-
 COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build ${IMAGE}_${ARCH}
 
 echo "${DOCKER_ACCESS_TOKEN}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
