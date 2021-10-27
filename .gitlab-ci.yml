@@ -21,7 +21,7 @@ rollup-x86:
       - rollup/*
       - requirements.txt
       - Dockerfile
-      - Dockerfile.arm
+      - ci/docker-deliver.sh
   tags:
     - elasticlifecycle
 
@@ -35,8 +35,8 @@ rollup-arm:
     changes:
       - rollup/*
       - requirements.txt
-      - Dockerfile
       - Dockerfile.arm
+      - ci/docker-deliver.sh
   tags:
     - buildarm
 
@@ -51,7 +51,7 @@ backup-x86:
       - backup/*
       - requirements.txt
       - Dockerfile
-      - Dockerfile.arm
+      - ci/docker-deliver.sh
   tags:
     - elasticlifecycle
 
@@ -65,7 +65,7 @@ backup-arm:
     changes:
       - backup/*
       - requirements.txt
-      - Dockerfile
       - Dockerfile.arm
+      - ci/docker-deliver.sh
   tags:
     - buildarm
