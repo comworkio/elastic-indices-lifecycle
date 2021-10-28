@@ -2,6 +2,7 @@ import json
 
 from time import sleep
 from elasticsearch import Elasticsearch
+from elasticsearch.exceptions import ConnectionTimeout
 from datetime import datetime
 import pycurl
 import re
@@ -130,7 +131,7 @@ while True:
     log_msg("debug", "Configuration : log_level = {}, should_slack = {}, elastic_hosts = {}, elastic_user = {}, date_format = {}".format(LOG_LEVEL, SLACK_TRIGGER, ES_HOSTS, ES_USER, DATE_FORMAT))
     log_msg("info", "Check if indices matching with prefixes = {} and suffixes = {}".format(INDEX_PREFIXES, INDEX_SUFFIXES))
     try:
-        for indice in es.indices.get('*'):
+        for indice in es.indices.get(index = '*'):
             quiet_log_msg("debug", "Check if indice {} match with prefixes or suffixes".format(indice))
 
             if INDEX_PREFIXES:
@@ -155,10 +156,8 @@ while True:
                             perform_delete(indice, creation_date)
                         except ValueError as ve:
                             log_msg("warn", "Unexpected ValueError = {} on indice = {}, skipping...".format(ve, indice))
-
-        log_msg("error", "Unexpected ValueError on indices loop deleting error = {}".format(ve))
-    except IOError as ioe:
-        log_msg("error", "Unexpected IOError on indices loop = {}".format(ioe))
+    except ConnectionTimeout as cte:
+        log_msg("error", "Unexpected ConnectionTimeout on indices loop = {}".format(cte))
     except:
         log_msg("error", "Unexpected error on indices loop = {}".format(sys.exc_info()[0]))
     sleep(WAIT_TIME)
