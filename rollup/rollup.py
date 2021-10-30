@@ -153,7 +153,7 @@ while True:
             if INDEX_SUFFIXES:
                 quiet_log_msg("debug", "Check if indice i={} match with suffixes s=".format(indice, INDEX_SUFFIXES))
                 for suffix in INDEX_SUFFIXES:
-                    capture = re.findall("^.*{}{}([0-9\-\.]+)$".format(suffix), DATE_SEPARATOR, indice)
+                    capture = re.findall("^.*{}{}([0-9\-\.]+)$".format(suffix, DATE_SEPARATOR), indice)
                     if capture:
                         try:
                             creation_date =  datetime.strptime(capture[0], DATE_FORMAT)
