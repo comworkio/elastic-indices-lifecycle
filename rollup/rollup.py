@@ -48,6 +48,7 @@ override_conf_from_env(conf, 'slack_channel')
 override_conf_from_env(conf, 'slack_emoji')
 override_conf_from_env(conf, 'log_level')
 override_conf_from_env(conf, 'date_format')
+override_conf_from_env(conf, 'date_separator')
 override_conf_from_env_array(conf, 'elastic_hosts')
 override_conf_from_env_array(conf, 'index_prefixes')
 override_conf_from_env_array(conf, 'index_suffixes')
@@ -69,6 +70,10 @@ SLACK_CHANNEL = conf['slack_channel']
 SLACK_EMOJI = conf['slack_emoji']
 LOG_LEVEL = conf['log_level']
 DATE_FORMAT = conf['date_format']
+DATE_SEPARATOR = conf['date_separator']
+
+if is_empty(DATE_SEPARATOR):
+    DATE_SEPARATOR = '-'
 
 def slack_message( message ):
     if SLACK_TRIGGER == 'on':
@@ -139,7 +144,7 @@ while True:
                 for prefix in INDEX_PREFIXES:
                     if indice.startswith(prefix):
                         try:
-                            creation_date =  datetime.strptime(indice, "{}-{}".format(prefix, DATE_FORMAT))
+                            creation_date =  datetime.strptime(indice, "{}{}{}".format(prefix, DATE_SEPARATOR, DATE_FORMAT))
                             quiet_log_msg("debug", "Check indice {} with creation_date : {} because of prefix {}".format(indice, creation_date, prefix))
                             perform_delete(indice, creation_date)
                         except ValueError as ve:
@@ -148,7 +153,7 @@ while True:
             if INDEX_SUFFIXES:
                 quiet_log_msg("debug", "Check if indice i={} match with suffixes s=".format(indice, INDEX_SUFFIXES))
                 for suffix in INDEX_SUFFIXES:
-                    capture = re.findall("^.*{}-([0-9\-\.]+)$".format(suffix), indice)
+                    capture = re.findall("^.*{}{}([0-9\-\.]+)$".format(suffix), DATE_SEPARATOR, indice)
                     if capture:
                         try:
                             creation_date =  datetime.strptime(capture[0], DATE_FORMAT)

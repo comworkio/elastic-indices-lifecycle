@@ -53,6 +53,7 @@ Here the environment variable you can use with your container :
 * `ES_LIFECYCLE_slack_channel`: the channel
 * `ES_LIFECYCLE_slack_emoji`: slack emoji that will be used as an avatar (default `:elastic:`, so you need to have an emoji that 
 * `ES_LIFECYCLE_date_format`: the format of date that is used for your indices names (default: `%Y%m%d`, so your indices needs to looks like `{prefix}-20200101`)
+* `ES_LIFECYCLE_date_separator`: the separator before the date in the name of indice (default value: `-`)
 * `ES_LIFECYCLE_index_prefixes`: the beginning of your indice names with comma as separator (example: `logs,metrics` will match for all indices that begin with `logs` or `metrics`, like `logs-myapp-20202001` for example).
 * `ES_LIFECYCLE_index_suffixes`: the end f your indice names with comma as separator (example: `logs,metrics` will match for all indices that end with `logs` or `metrics` just before the date, like `myapp-logs-20202001` for example).
 
