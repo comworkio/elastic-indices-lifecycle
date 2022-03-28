@@ -1,0 +1,8 @@
+---
+eslifecycle_image: comworkio/elastic-indices-lifecycle:7.15.1-1.4
+elastic_host: elasticsearch.yourorga.com
+elastic_port: 443
+elastic_sheme: https
+elastic_username: eslifecycle-prod
+eslifecycle: []
+sealedSecrets: []

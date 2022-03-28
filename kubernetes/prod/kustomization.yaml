@@ -1,8 +1,0 @@
-bases:
-    - ../base
-
-resources:
-    - secrets/elastic-password.sealed.yaml
-    - secrets/slack-token.sealed.yaml
-    - cmn/configmap.yaml
-

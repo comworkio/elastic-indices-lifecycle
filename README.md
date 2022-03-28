@@ -107,15 +107,12 @@ Here the environment variable you can use with your container :
 * `ES_LIFECYCLE_fs_user`: linux user owner of the `ES_LIFECYCLE_elastic_backup_path`
 * `ES_LIFECYCLE_log_level`: log level `debug` or `info` (default: `info`)
 
-## Deployment with kubernetes
+## Deployment with kubernetes and helm
 
-There will be a nice helm chart some days.
-
-For now, you'll find an example of kubernetes yaml [here](./kubernetes) files using kustomize in order to deploy two environments in a gitops way.
+You'll find an example of helm templates [here](./helm) in order to deploy multiple deployments in a gitops way.
 
 You'll see that you'll also need to create the missing secrets (using SealedSecret if you want to stay completly gitops).
 
 Here's the result of using this kustomize example on ArgoCD:
 
 ![argocd](./images/argocd.png)
-

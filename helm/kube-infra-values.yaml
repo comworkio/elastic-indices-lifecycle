@@ -1,0 +1,35 @@
+---
+eslifecycle:
+  rollup-prod-legacy:
+    retention: 90
+    index_suffixes: prod-logs
+  rollup-qa-legacy:
+    retention: 15
+    index_suffixes: qa-logs
+  rollup-dev-legacy:
+    retention: 7
+    index_suffixes: dev-logs
+  rollup-prod:
+    retention: 90
+    index_suffixes: prod
+  rollup-qa:
+    retention: 15
+    index_suffixes: qa
+  rollup-dev:
+    retention: 7
+    index_suffixes: dev
+  rollup-backbone:
+    retention: 15
+    index_suffixes: backbone
+
+sealedSecrets:
+  elastic-password:
+    annotations:
+      argocd.argoproj.io/sync-wave: "-2"
+    encryptedData:
+      password: changeit
+  slack-token:
+    annotations:
+      argocd.argoproj.io/sync-wave: "-2"
+    encryptedData:
+      token: changeit
