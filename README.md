@@ -5,10 +5,8 @@ This project aims to provide a docker image that handle the rollup of elastic in
 ## Git repository
 
 * main repo: https://gitlab.comwork.io/oss/elasticstack/elastic-indices-lifecycle
-* github mirror backup: https://github.com/idrissneumann/elastic-indices-lifecycle
+* github mirror backup: https://github.com/comworkio/elastic-indices-lifecycle
 * gitlab mirror backup: https://gitlab.com/ineumann/elastic-indices-lifecycle
-* bitbucket mirror backup: https://bitbucket.org/idrissneumann/elastic-indices-lifecycle
-* froggit mirror backup: https://lab.frogg.it/ineumann/elastic-indices-lifecycle
 
 ## Rollup service
 ### Docker repository
